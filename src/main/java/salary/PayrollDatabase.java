@@ -15,4 +15,8 @@ public class PayrollDatabase {
     public static Employee getEmployee(int empId) {
         return employeeMap.get(empId);
     }
+
+    public static void deleteEmployee(int empId) {
+        employeeMap.remove(empId);
+    }
 }

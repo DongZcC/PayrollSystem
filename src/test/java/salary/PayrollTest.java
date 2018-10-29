@@ -24,4 +24,24 @@ public class PayrollTest {
 
         assertTrue(e.getPaymentMethod() instanceof HoldMethod);
     }
+
+
+    @Test
+    public void testDeleteEmployee() {
+
+        int empId = 1;
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        t.execute();
+
+        Employee e = PayrollDatabase.getEmployee(empId);
+
+        assertNotNull(e);
+
+        DeleteEmployeeTransaction d = new DeleteEmployeeTransaction(empId);
+        d.execute();
+
+        e = PayrollDatabase.getEmployee(empId);
+
+        assertNull(e);
+    }
 }

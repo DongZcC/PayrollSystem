@@ -1,13 +1,13 @@
-package salary.data;
+package salary;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Date;
 
-@Getter
 @AllArgsConstructor
-public class SalesReceipt {
+@Getter
+public class ServiceCharge {
 
     private Date date;
 

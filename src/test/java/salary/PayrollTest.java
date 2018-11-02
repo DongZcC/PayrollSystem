@@ -8,7 +8,6 @@ import salary.method.HoldMethod;
 import salary.schdule.MonthlySchedule;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 
@@ -68,9 +67,37 @@ public class PayrollTest {
 
         assertTrue(pc instanceof HourlyClassification);
 
-        TimeCard timeCard = ((HourlyClassification)pc).getTimeCard(new Date(2001, 10, 31));
+        TimeCard timeCard = ((HourlyClassification) pc).getTimeCard(new Date(2001, 10, 31));
 
         assertEquals(8.0, timeCard.getHours(), 0);
+    }
+
+
+    @Test
+    public void testAddServiceCharge() {
+        int empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Home", "Bill", 15.25);
+
+        t.execute();
+
+        Employee e = PayrollDatabase.getEmployee(empId);
+        assertNotNull(e);
+
+        int memberId = 86;
+        UnionAffillation af = new UnionAffillation(memberId, 12.5);
+
+        e.setAffillation(af);
+
+        PayrollDatabase.addUnionMember(memberId, e);
+
+        ServiceChargeTransaction sct = new ServiceChargeTransaction(new Date(2011, 11, 01), memberId, 12.95);
+        sct.execute();
+
+        ServiceCharge sc = af.getServiceCharge(new Date(2011, 11, 01));
+
+        assertNotNull(sc);
+
+        assertEquals(12.95, sc.getAmount(), 0.01);
     }
 
 }

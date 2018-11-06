@@ -9,7 +9,12 @@ public abstract class ChangeAffiliationTransaction extends ChangeEmployeeTransac
     @Override
     protected void change(Employee e) {
         e.setAffiliation(getAffiliation());
+
+        //
+        recordMemberShip(e);
     }
+
+    protected abstract void recordMemberShip(Employee e);
 
     protected abstract Affiliation getAffiliation();
 }

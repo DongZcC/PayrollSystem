@@ -144,4 +144,33 @@ public class PayrollTest {
         assertTrue(ps instanceof WeeklySchedule);
     }
 
+
+    @Test
+    public void testChangeMemberTransaction() {
+        int empId = 2;
+        int memberId = 7734;
+
+        AddHourlyEmployee e = new AddHourlyEmployee(empId, "Home", "Bob", 15.25);
+        e.execute();
+
+        ChangeMemberTransaction c = new ChangeMemberTransaction(empId, memberId, 99.42);
+        c.execute();
+
+        Employee employee = PayrollDatabase.getEmployee(empId);
+        assertNotNull(e);
+
+        Affiliation af = employee.getAffiliation();
+
+        assertTrue(af instanceof UnionAffiliation);
+
+        UnionAffiliation naf = (UnionAffiliation) af;
+        assertEquals(99.42, naf.getAmount(), 0.01);
+
+        Employee member = PayrollDatabase.getUnionMember(memberId);
+
+        assertNotNull(member);
+
+        assertEquals(employee, member);
+    }
+
 }

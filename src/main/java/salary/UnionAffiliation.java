@@ -30,4 +30,13 @@ public class UnionAffiliation implements Affiliation {
     public void addServiceCharge(ServiceCharge sc) {
         serviceCharges.put(sc.getDate(), sc);
     }
+
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
 }

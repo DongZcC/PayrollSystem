@@ -29,4 +29,8 @@ public class PayrollDatabase {
     public static void addUnionMember(int memberId, Employee e) {
         memberMap.put(memberId, e);
     }
+
+    public static void removeUnionMember(int memberId) {
+        memberMap.remove(memberId);
+    }
 }

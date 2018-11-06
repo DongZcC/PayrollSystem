@@ -21,7 +21,7 @@ public abstract class AddEmployeeTransaction implements Transaction {
 
         employee.setClassification(getClassification());
         employee.setSchedule(getSchedule());
-        PaymentMethod paymentMethod = new HoldMethod();
+        PaymentMethod paymentMethod = new HoldMethod(itsAddress);
         employee.setPaymentMethod(paymentMethod);
 
         PayrollDatabase.addEmployee(empId, employee);

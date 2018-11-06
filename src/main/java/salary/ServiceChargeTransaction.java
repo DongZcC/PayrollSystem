@@ -20,10 +20,10 @@ public class ServiceChargeTransaction implements Transaction {
         if (e == null)
             throw new RuntimeException("the member have no employee");
 
-//        for (Affillation affillation : e.getAffillations()) {
+//        for (Affiliation affiliation : e.getAffillations()) {
             // 如果是工会则可以添加服务费
-            if (e.getAffillation() instanceof UnionAffillation) {
-                UnionAffillation unionAffillation = (UnionAffillation) e.getAffillation();
+            if (e.getAffiliation() instanceof UnionAffiliation) {
+                UnionAffiliation unionAffillation = (UnionAffiliation) e.getAffiliation();
                 ServiceCharge sc = new ServiceCharge(date, charge);
                 unionAffillation.addServiceCharge(sc);
             }

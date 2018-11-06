@@ -1,12 +1,10 @@
 package salary;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UnionAffillation implements Affillation {
+public class UnionAffiliation implements Affiliation {
 
     private int memberId;
 
@@ -14,7 +12,7 @@ public class UnionAffillation implements Affillation {
 
     private Map<Date, ServiceCharge> serviceCharges = new HashMap<>();
 
-    public UnionAffillation(int memberId, double amount) {
+    public UnionAffiliation(int memberId, double amount) {
         this.memberId = memberId;
         this.amount = amount;
     }

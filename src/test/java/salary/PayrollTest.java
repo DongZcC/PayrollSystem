@@ -6,6 +6,8 @@ import salary.classify.PaymentClassification;
 import salary.classify.SalariedClassification;
 import salary.method.HoldMethod;
 import salary.schdule.MonthlySchedule;
+import salary.schdule.PaymentSchedule;
+import salary.schdule.WeeklySchedule;
 
 import java.util.Date;
 
@@ -84,9 +86,9 @@ public class PayrollTest {
         assertNotNull(e);
 
         int memberId = 86;
-        UnionAffillation af = new UnionAffillation(memberId, 12.5);
+        UnionAffiliation af = new UnionAffiliation(memberId, 12.5);
 
-        e.setAffillation(af);
+        e.setAffiliation(af);
 
         PayrollDatabase.addUnionMember(memberId, e);
 
@@ -98,6 +100,48 @@ public class PayrollTest {
         assertNotNull(sc);
 
         assertEquals(12.95, sc.getAmount(), 0.01);
+    }
+
+
+    @Test
+    public void testChangeNameTransaction() {
+        int empId = 2;
+        AddHourlyEmployee a = new AddHourlyEmployee(empId, "home", "bob", 8);
+        a.execute();
+
+        Employee e = PayrollDatabase.getEmployee(empId);
+
+        assertEquals("bob", e.getName());
+
+        ChangeNameTransaction c = new ChangeNameTransaction(empId, "jack");
+
+        c.execute();
+        assertEquals("jack", e.getName());
+    }
+
+
+    @Test
+    public void testChangeHourlyTransaction() {
+        int empId = 3;
+        AddCommissionedEmployee t = new AddCommissionedEmployee(empId, "Home", "Bob", 1000, 3.2);
+        t.execute();
+
+        ChangeHourlyTransaction c = new ChangeHourlyTransaction(empId, 27.52);
+        c.execute();
+
+        Employee e = PayrollDatabase.getEmployee(empId);
+
+        PaymentClassification pc = e.getClassification();
+
+        assertTrue(pc instanceof HourlyClassification);
+
+        HourlyClassification hc = (HourlyClassification) pc;
+
+        assertEquals(27.52, hc.getHourlyRate(), 0.01);
+
+        PaymentSchedule ps = e.getSchedule();
+
+        assertTrue(ps instanceof WeeklySchedule);
     }
 
 }

@@ -27,4 +27,8 @@ public class HourlyClassification implements PaymentClassification {
     public TimeCard getTimeCard(Date date) {
         return timeCards.get(date);
     }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
 }

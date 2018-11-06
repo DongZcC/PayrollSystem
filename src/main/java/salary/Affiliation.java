@@ -2,7 +2,7 @@ package salary;
 
 import java.util.Date;
 
-public interface Affillation {
+public interface Affiliation {
 
     double getFee(Date date);
 }

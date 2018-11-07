@@ -173,4 +173,17 @@ public class PayrollTest {
         assertEquals(employee, member);
     }
 
+
+    @Test
+    public void testPaySingleSalariedEmployee() {
+        int empId = 1;
+        AddSalariedEmployee a = new AddSalariedEmployee(empId, "Home", "Bob", 1000.00);
+        a.execute();
+
+        Date date = new Date();
+        PayDayTransaction pt = new PayDayTransaction(date);
+        pt.execute();
+
+    }
+
 }

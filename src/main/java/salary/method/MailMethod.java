@@ -9,4 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MailMethod implements PaymentMethod {
     private String address;
+
+    @Override
+    public void pay(double amount) {
+
+    }
 }

@@ -9,4 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DirectMethod implements PaymentMethod {
     private String bankAccount;
+
+    @Override
+    public void pay(double amount) {
+
+    }
 }

@@ -6,9 +6,9 @@ public class NoAffiliation implements Affiliation {
 
 
     // NULL OBJECT MODEL
-
     @Override
-    public double getFee(Date date) {
+    public double calculateDeductions(PayCheck pc) {
         return 0;
     }
+
 }

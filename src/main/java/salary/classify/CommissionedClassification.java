@@ -1,5 +1,6 @@
 package salary.classify;
 
+import salary.PayCheck;
 import salary.data.SalesReceipt;
 
 import java.util.Date;
@@ -19,7 +20,7 @@ public class CommissionedClassification implements PaymentClassification {
     private List<SalesReceipt> salesReceiptList;
 
     @Override
-    public double caculatePay(Date date) {
+    public double caculatePay(PayCheck pc) {
         return 0;
     }
 

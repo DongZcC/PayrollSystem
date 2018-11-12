@@ -1,5 +1,7 @@
 package salary.method;
 
+import salary.PayCheck;
+
 public interface PaymentMethod {
-    void pay(double amount);
+    void pay(PayCheck pc);
 }

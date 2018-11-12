@@ -17,12 +17,6 @@ public class UnionAffiliation implements Affiliation {
         this.amount = amount;
     }
 
-
-    @Override
-    public double getFee(Date date) {
-        return 0;
-    }
-
     public ServiceCharge getServiceCharge(Date date) {
         return serviceCharges.get(date);
     }
@@ -38,5 +32,10 @@ public class UnionAffiliation implements Affiliation {
 
     public int getMemberId() {
         return memberId;
+    }
+
+    @Override
+    public double calculateDeductions(PayCheck pc) {
+        return amount;
     }
 }

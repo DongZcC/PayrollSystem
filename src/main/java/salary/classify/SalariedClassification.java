@@ -1,6 +1,7 @@
 package salary.classify;
 
 import lombok.AllArgsConstructor;
+import salary.PayCheck;
 
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class SalariedClassification implements PaymentClassification {
     private double salary;
 
     @Override
-    public double caculatePay(Date date) {
-        return 0;
+    public double caculatePay(PayCheck pc) {
+        return salary;
     }
 }

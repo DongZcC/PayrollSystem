@@ -18,12 +18,14 @@ public abstract class AddEmployeeTransaction implements Transaction {
         Employee employee = new Employee();
         employee.setAddress(itsAddress);
         employee.setName(itsName);
+        employee.setEmpId(empId);
 
         employee.setClassification(getClassification());
         employee.setSchedule(getSchedule());
         PaymentMethod paymentMethod = new HoldMethod(itsAddress);
         employee.setPaymentMethod(paymentMethod);
-
+        Affiliation affiliation = new NoAffiliation();
+        employee.setAffiliation(affiliation);
         PayrollDatabase.addEmployee(empId, employee);
     }
 

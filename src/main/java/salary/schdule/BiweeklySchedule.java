@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class BiweeklySchedule implements PaymentSchedule {
+
     @Override
     public boolean isPayDate(Date date) {
         Calendar calendar = Calendar.getInstance();

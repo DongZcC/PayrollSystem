@@ -21,7 +21,7 @@ public class PayDayTransaction implements Transaction {
         employeeList.forEach(e -> {
             // 是谁的方法就要谁去处理 .
             if (e.isPayDate(date)) {
-                PayCheck pc = new PayCheck(date);
+                PayCheck pc = new PayCheck(e.getPayPeriodStartDate(date), date);
                 paychecks.put(e.getEmpId(), pc);
                 e.payDate(pc);
             }

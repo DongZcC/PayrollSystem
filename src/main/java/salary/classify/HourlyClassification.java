@@ -20,21 +20,26 @@ public class HourlyClassification implements PaymentClassification {
     @Override
     public double caculatePay(PayCheck pc) {
         double result = 0.0;
-        // 计算一周的时间
         Date endDate = pc.getPayPeriodEndDate();
-        Date startDate = DateUtils.addDays(endDate, -6);
-
+        Date startDate = pc.getPayPeriodStartDate();
         for (Map.Entry<Date, TimeCard> entry : timeCards.entrySet()) {
-            if (entry.getKey().before(DateUtils.addDays(endDate, 1)) && entry.getKey().after(startDate)) {
-                if (entry.getValue().getHours() > 8) {
-                    result += hourlyRate * 8 + (entry.getValue().getHours() - 8) * hourlyRate * 1.5;
-                } else {
-                    result += hourlyRate * entry.getValue().getHours();
-                }
-
+            // 判断是否在支付区间的函数， 不应该在计算薪水的类中
+            if (isInPayPeriod(entry.getValue(), startDate, endDate)) {
+                result += calculatePayForTimeCard(entry.getValue());
             }
         }
         return result;
+    }
+
+    private double calculatePayForTimeCard(TimeCard tc) {
+        double hours = tc.getHours();
+        double overtime = Math.max(0.0, hours - 8);
+        double straightTime = hours - overtime;
+        return straightTime * hourlyRate + overtime * hourlyRate * 1.5;
+    }
+
+    private boolean isInPayPeriod(TimeCard tc, Date startDate, Date endDate) {
+        return (tc.getDate().before(DateUtils.addDays(endDate, 1)) && tc.getDate().after(startDate));
     }
 
     public void addTimeCard(TimeCard timeCard) {

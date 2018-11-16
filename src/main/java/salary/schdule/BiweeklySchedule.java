@@ -17,4 +17,9 @@ public class BiweeklySchedule implements PaymentSchedule {
         calendar.add(Calendar.WEEK_OF_MONTH, -2);
         return DateUtils.isSameDay(date, calendar.getTime());
     }
+
+    @Override
+    public Date getPayPeriodStartDate(Date payDate) {
+        return null;
+    }
 }

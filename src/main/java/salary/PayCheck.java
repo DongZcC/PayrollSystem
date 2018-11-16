@@ -17,11 +17,14 @@ public class PayCheck {
 
     private double netPay;
 
+    private Date payPeriodStartDate;
+
     private Date payDate;
 
     private Map<String, String> fields = new HashMap<>();
 
-    public PayCheck(Date payDate) {
+    public PayCheck(Date payPeriodStartDate, Date payDate) {
+        this.payPeriodStartDate = payPeriodStartDate;
         this.payDate = payDate;
     }
 

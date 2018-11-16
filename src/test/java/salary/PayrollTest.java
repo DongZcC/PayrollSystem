@@ -225,7 +225,6 @@ public class PayrollTest {
     private void ValidatePayCheck(PayDayTransaction pt, int empId, Date payDate, double pay) {
         PayCheck pc = pt.getPayCheck(empId);
         assertNotNull(pc);
-
         assertEquals(pc.getPayPeriodEndDate(), payDate);
         assertEquals(pay, pc.getGrossPay(), 0.001);
         assertEquals("Hold", pc.getField("Disposition"));
@@ -266,7 +265,7 @@ public class PayrollTest {
         PayDayTransaction pt = new PayDayTransaction(payDate);
         pt.execute();
 
-        ValidatePayCheck(pt, empId, payDate, (8+1.5) * 15.25);
+        ValidatePayCheck(pt, empId, payDate, (8 + 1.5) * 15.25);
     }
 
 
@@ -306,12 +305,81 @@ public class PayrollTest {
         PayDayTransaction pt = new PayDayTransaction(payDate);
         pt.execute();
 
-        ValidatePayCheck(pt, empId, payDate, (16+1.5) * 15.25);
+        ValidatePayCheck(pt, empId, payDate, (16 + 1.5) * 15.25);
     }
 
 
     @Test
     public void testPaySingleHourlyEmployeeWithTimeCardsSpanningTowPayPeriods() {
+        int empId = 2;
+        AddHourlyEmployee a = new AddHourlyEmployee(empId, "Home", "Bill", 15.25);
+        a.execute();
 
+        Date payDate = new Date(2018 - 1900, 10, 16);
+        Date dateInPreviousPayPeriod = new Date(2018 - 1900, 10, 9);
+
+        TimeCardTransaction tc = new TimeCardTransaction(payDate, 2.0, empId);
+        tc.execute();
+
+        TimeCardTransaction tc2 = new TimeCardTransaction(dateInPreviousPayPeriod, 5.0, empId);
+        tc2.execute();
+
+        PayDayTransaction pt = new PayDayTransaction(payDate);
+        pt.execute();
+
+        ValidatePayCheck(pt, empId, payDate, 2 * 15.25);
     }
+
+
+    @Test
+    public void testSalariedUnionMemberDues() {
+        int empId = 1;
+        AddSalariedEmployee s = new AddSalariedEmployee(empId, "Home", "Bob", 1000.00);
+        s.execute();
+
+        int memberId = 7734;
+        ChangeMemberTransaction c = new ChangeMemberTransaction(empId, memberId, 9.42);
+        c.execute();
+
+        Date payDate = new Date(2018 - 1900, 10, 30);
+        PayDayTransaction pt = new PayDayTransaction(payDate);
+        pt.execute();
+
+        ValidatePayAndDecution(pt, empId, payDate, 1000.00, 5 * 9.42);
+    }
+
+
+    @Test
+    public void testHourlyUnionMemberServiceCharge() {
+        int empId = 1;
+        AddHourlyEmployee a = new AddHourlyEmployee(empId, "Bill", "Home", 15.24);
+        a.execute();
+        int memberId = 7734;
+        ChangeMemberTransaction c = new ChangeMemberTransaction(empId, memberId, 9.42);
+        c.execute();
+
+        Date payDate = new Date(2018 - 1900, 10, 16);
+        ServiceChargeTransaction sct = new ServiceChargeTransaction(payDate, memberId, 19.42);
+        sct.execute();
+
+        TimeCardTransaction tct = new TimeCardTransaction(payDate, 8, empId);
+        tct.execute();
+
+        PayDayTransaction pt = new PayDayTransaction(payDate);
+        pt.execute();
+
+        ValidatePayAndDecution(pt, empId, payDate, 8 * 15.24, 19.42 + 9.42);
+    }
+
+
+    private void ValidatePayAndDecution(PayDayTransaction pt, int empId, Date payDate, double pay, double decution) {
+        PayCheck pc = pt.getPayCheck(empId);
+        assertNotNull(pc);
+        assertEquals(pc.getPayPeriodEndDate(), payDate);
+        assertEquals(pay, pc.getGrossPay(), 0.001);
+        assertEquals("Hold", pc.getField("Disposition"));
+        assertEquals(decution, pc.getDecutions(), 0.001);
+        assertEquals(pay - decution, pc.getNetPay(), 0.001);
+    }
+
 }

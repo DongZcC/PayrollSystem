@@ -13,4 +13,13 @@ public class WeeklySchedule implements PaymentSchedule {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
         return DateUtils.isSameDay(date, calendar.getTime());
     }
+
+    @Override
+    public Date getPayPeriodStartDate(Date payDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(payDate); // 周五
+        c.add(Calendar.WEEK_OF_MONTH, -1); // 上周五
+        c.add(Calendar.DATE, 1); // 上周六
+        return c.getTime();
+    }
 }

@@ -40,4 +40,8 @@ public class Employee {
         pc.setNetPay(netPay);
         paymentMethod.pay(pc);
     }
+
+    public Date getPayPeriodStartDate(Date payDate) {
+        return schedule.getPayPeriodStartDate(payDate);
+    }
 }

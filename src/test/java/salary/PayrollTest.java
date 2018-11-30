@@ -2,13 +2,21 @@ package salary;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
-import salary.classify.HourlyClassification;
-import salary.classify.PaymentClassification;
-import salary.classify.SalariedClassification;
-import salary.method.HoldMethod;
-import salary.schdule.MonthlySchedule;
-import salary.schdule.PaymentSchedule;
-import salary.schdule.WeeklySchedule;
+import salary.affiliations.Affiliation;
+import salary.affiliations.ServiceCharge;
+import salary.affiliations.UnionAffiliation;
+import salary.classifications.HourlyClassification;
+import salary.classifications.PaymentClassification;
+import salary.classifications.SalariedClassification;
+import salary.data.PayCheck;
+import salary.data.TimeCard;
+import salary.methods.HoldMethod;
+import salary.payrolldatabase.Employee;
+import salary.payrolldatabase.PayrollDatabase;
+import salary.schdules.MonthlySchedule;
+import salary.schdules.PaymentSchedule;
+import salary.schdules.WeeklySchedule;
+import salary.transactions.*;
 
 import java.util.Date;
 
@@ -358,7 +366,7 @@ public class PayrollTest {
         ChangeMemberTransaction c = new ChangeMemberTransaction(empId, memberId, 9.42);
         c.execute();
 
-        Date payDate = new Date(2018 - 1900, 10, 16);
+        Date payDate = new Date(2018 - 1900, 10, 30);
         ServiceChargeTransaction sct = new ServiceChargeTransaction(payDate, memberId, 19.42);
         sct.execute();
 
